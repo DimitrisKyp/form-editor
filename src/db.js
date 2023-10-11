@@ -1,8 +1,14 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require("sequelize");
+const { form1Model } = require("./models/form_model_1.js");
 
 const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: 'src/mydatabase.sqlite', // Specify the name of your SQLite database file
+  dialect: "sqlite",
+  storage: "src/database.sqlite",
 });
 
-module.exports = sequelize;
+const Form1 = form1Model(sequelize);
+
+module.exports = {
+  sequelize,
+  Form1,
+};
