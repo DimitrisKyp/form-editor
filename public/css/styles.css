@@ -79,17 +79,9 @@ body {
   height: 70px;
 }
 
-.create-form-selection-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70px;
-}
-
 .create-form-selection {
   display: flex;
   justify-content: space-evenly;
-  width: 400px;
 }
 
 .form-container {

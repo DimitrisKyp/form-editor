@@ -7,6 +7,7 @@ const db = require("./db.js");
 const sequelize = db.sequelize;
 const http = require("http");
 const { form1Model } = require("./models/form_model_1.js");
+const { form2Model } = require("./models/form_model_2.js");
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../public")));
@@ -45,7 +46,6 @@ app.get("/form_2.html", (req, res) => {
 app.post("/submit-form-1", async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
 
     const form = await form1Model(sequelize).create({
       Order_num: data.order_num,
@@ -91,6 +91,46 @@ app.post("/submit-form-1", async (req, res) => {
 
     console.log(`New form-1 created`);
     res.status(200).send("Form-1 created successfully.");
+  } catch (err) {
+    console.error(`Error saving Form: ${err}`);
+    res.status(500).send("Error creating Form.");
+  }
+});
+
+app.post("/submit-form-2", async (req, res) => {
+  try {
+    const data = req.body;
+
+    const form = await form2Model(sequelize).create({
+      Type_2: data.type_2,
+      Mold_number_2: data.mold_number_2,
+      Date_2: data.date_2,
+      Machine_2: data.machine_2,
+      Batch_2: data.batch_2,
+      Product_accounting_code_2: data.product_accounting_code_2,
+      QC_controller_2: data.qc_controller_2,
+      QC_manager_2: data.qc_manager_2,
+      Visual_inspection_2: data.visual_inspection_2,
+      PCB_support_points_check_2: data.PCB_support_points_check_2,
+      Scratch_check_2: data.scratch_check_2,
+      Reflector_socket_check_2: data.reflector_socket_check_2,
+      Battery_support_base_check_2: data.battery_support_base_check_2,
+      Socket_base_check_2: data.socket_base_check_2,
+      Plastic_tire_button_check_2: data.plastic_tire_button_check_2,
+      Placement_2: data.placement_2,
+      Cable_passage_hole_2: data.cable_passage_hole_2,
+      Uniformity_injection_2: data.uniformity_injection_2,
+      Supply_point_problems_2: data.supply_point_problems_2,
+      Clasps_2: data.clasps_2,
+      Screw_holders_2: data.screw_holders_2,
+      Light_transmission_check_2: data.light_transmission_check_2,
+      Production_date_clock_2: data.production_date_clock_2,
+      Application_2: data.application_2,
+      Other_2 : data.other_2
+    });
+
+    console.log(`New form-2 created`);
+    res.status(200).send("Form-2 created successfully.");
   } catch (err) {
     console.error(`Error saving Form: ${err}`);
     res.status(500).send("Error creating Form.");
