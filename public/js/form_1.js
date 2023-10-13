@@ -42,9 +42,7 @@ function submitForm1() {
     sound_level_control: document.getElementById("sound_level_control").value,
   };
 
-  console.log("body", body);
-
-  fetch("submit-form", {
+  fetch("submit-form-1", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -55,8 +53,4 @@ function submitForm1() {
       if (!res.ok) throw new Error(`HTTP error. Status: ${res.status}`);
     })
     .catch((err) => console.error(`Error submiting form: ${err}`));
-}
-
-function submitForm2() {
-    console.log("submit Form 2");
 }

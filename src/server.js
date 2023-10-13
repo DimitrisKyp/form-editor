@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
-const PORT = 3000;
+const PORT = 3002;
 const db = require("./db.js");
 const sequelize = db.sequelize;
 const http = require("http");
@@ -22,12 +22,16 @@ sequelize
     console.error(`Error initializing database: ${err}`);
   });
 
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.join(path.resolve(), "/favicon.ico"));
+});
+  
 app.get("/", function (req, res) {
   const options = {
     root: path.join(__dirname, "../public", "html"),
   };
 
-  res.sendFile("main.html", options);
+  res.sendFile("index.html", options);
 });
 
 app.get("/form_1.html", (req, res) => {
@@ -38,13 +42,12 @@ app.get("/form_2.html", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/html/form_2.html"));
 });
 
-app.post("/submit-form", async (req, res) => {
+app.post("/submit-form-1", async (req, res) => {
   try {
     const data = req.body;
     console.log(data);
 
     const form = await form1Model(sequelize).create({
-      CollectionName: data.collectionName,
       Order_num: data.order_num,
       Production_method: data.production_method,
       Receipt_order_date: data.receipt_order_date,
@@ -86,8 +89,8 @@ app.post("/submit-form", async (req, res) => {
       Sound_level_control: data.sound_level_control,
     });
 
-    console.log(`New form created`);
-    res.status(200).send("Form created successfully.");
+    console.log(`New form-1 created`);
+    res.status(200).send("Form-1 created successfully.");
   } catch (err) {
     console.error(`Error saving Form: ${err}`);
     res.status(500).send("Error creating Form.");

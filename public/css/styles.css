@@ -1,40 +1,152 @@
 body {
-  background-color: rgb(235, 209, 209);
-  height: 100vh;
+  background-color: rgb(228, 226, 241);
+  /* height: 100vh; */
   margin: 0;
   padding: 0;
   overflow-y: auto;
+  font-size: small;
   font-family: Arial, Helvetica, sans-serif;
 }
-
-.main-container {
+/*NAVBAR*/
+.navbar-container {
+  background-color: rgb(177, 180, 228);
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 80px;
   display: flex;
-  flex-direction: column;
-  min-height: 95%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.header-container {
+.navbar-head {
+  width: 300px;
+  font-size: 160%;
+}
+
+.navbar-title {
+  width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  height: 25vh;
+  font-size: 120%;
+  font-weight: bold;
 }
 
-.title {
-  color: #ff4742;
+.navbar-links {
+  width: 500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.navbar-links div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/*PDF BTN*/
+.pdf-generator {
+  display: flex;
+  justify-content: flex-end;
+  height: 70px;
+  align-items: center;
+  padding: 0 10px;
+}
+
+/*REGISTERED FORMS*/
+.registered-forms-title {
+  display: flex;
+  justify-content: center;
+}
+
+.registered-forms-selection {
+  display: flex;
+  justify-content: space-evenly;
+}
+/*CREATE FORM*/
+.create-form-title {
+  display: flex;
+  justify-content: center;
+}
+
+.create-form-submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+}
+
+.create-form-selection-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+}
+
+.create-form-selection {
+  display: flex;
+  justify-content: space-evenly;
+  width: 400px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+/*FOOTER*/
+#footer {
+  background-color: rgb(177, 180, 228);
+  color: white;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  height: 3.5vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+#footer a {
+  color: white !important;
+}
+
+#footer a:hover {
+  color: blue !important;
+}
+
+.footer-link {
+  margin-left: auto;
+}
+
+.footer-version {
+  margin-left: auto;
+  margin-right: 10px;
+}
+/*LINKS*/
+a:visited {
+  color: blue;
+}
+
+a:hover {
+  color: rgb(9, 9, 65) ;
 }
 /*BUTTONS*/
 .button {
-  background: #ff4742;
-  border: 1px solid #ff4742;
+  background: rgb(53, 53, 163);
+  border: 1px solid rgb(53, 53, 163);
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
   box-sizing: border-box;
   color: #ffffff;
   cursor: pointer;
   display: inline-block;
-  font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
   font-size: 16px;
   font-weight: 800;
   line-height: 16px;
@@ -42,18 +154,16 @@ body {
   outline: 0;
   padding: 12px 14px;
   text-align: center;
-  text-rendering: geometricprecision;
   text-transform: none;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: manipulation;
   vertical-align: middle;
 }
 
 .button:hover,
 .button:active {
   background-color: initial;
-  color: #ff4742;
+  color: rgb(53, 53, 163);;
 }
 
 .button:disabled {
@@ -62,45 +172,41 @@ body {
 }
 
 .button:disabled:hover {
-  background: #ff4742;
+  background: rgb(53, 53, 163);;
   color: #ffffff;
 }
-/*FORMS*/
-.form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px; 
-}
 
-/*FOOTER*/
-#container-footer {
-  background-color: #ff4742;
+/*MODAL*/
+/* .modal-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 5%;
-}
-
-#footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100%;
-  font-size: 1rem;
+  background: rgba(0, 0, 0, 0.7);
 }
 
-.footer-link {
-  color: white;
-  flex: 1;
+.modal-container.active {
+  display: block;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 5px;
+  width: 60%;
+  max-width: 600px;
+  margin: 15% auto;
+  padding: 20px;
+  position: relative;
   text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-.footer-link a {
-  font-weight: bold;
-  color: white;
-}
-
-.footer-version {
-  text-align: right;
-  color: white;
-  margin-right: 1em;
-}
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+} */
