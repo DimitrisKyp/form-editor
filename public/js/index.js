@@ -1,48 +1,55 @@
-let formFileName = "";
+let newFormName = "";
+let editFormName = "";
+let dataTable = null;
 
 window.onload = function () {
-  console.log("hello");
   footer();
 };
 
-function EditForm() {
-  const modalContainer = document.querySelector(".modal-container");
-  const closeModalBtn = document.getElementById("cancel-modal-btn");
+function EditForm(formName) {
+  SelectedFormLoaded = formName;
 
-  modalContainer.classList.add("active");
+  fetch(`load-form-data`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ SelectedFormLoaded }),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP error. Status: ${res.status}`);
+      return res.json();
+    })
+    .then((data) => {
+      let columns = [];
 
-  function closeModalClick(e) {
-    if (!e.target.closest(".modal-content") || e.target === closeModalBtn) {
-      closeModal();
-    }
-  }
+      for (let key in data[0]) {
+        columns.push({ data: key, title: key });
+      }
 
-  function closeModalEsc(e) {
-    if (e.key === "Escape") {
-      closeModal();
-    }
-  }
+      if (dataTable) {
+        $("#datatable").DataTable().destroy();
+        $("#datatable").empty();
+      }
 
-  function closeModal() {
-    modalContainer.classList.remove("active");
-    closeModalBtn.removeEventListener("click", closeModal);
-    modalContainer.removeEventListener("click", closeModalClick);
-    document.removeEventListener("keyup", closeModalEsc);
-  }
-
-  closeModalBtn.addEventListener("click", closeModal);
-  modalContainer.addEventListener("click", closeModalClick);
-  document.addEventListener("keyup", closeModalEsc);
+      dataTable = $("#datatable").DataTable({
+        data: data,
+        columns: columns,
+        scrollX: true,
+        lengthMenu: [10, 15, 20, 50, 100]
+      });
+    })
+    .catch((err) => console.error(`Error submitting form: ${err}`));
 }
 
-function loadForm(FileName) {
+function NewForm(formName) {
   let exportBtn = document.getElementById("export-btn");
   exportBtn.removeAttribute("disabled");
   let submitBtn = document.getElementById("submit-btn");
   submitBtn.removeAttribute("disabled");
-  formFileName = FileName;
+  newFormName = formName;
 
-  fetch(`${FileName}.html`)
+  fetch(`${formName}.html`)
     .then((response) => response.text())
     .then((htmlContent) => {
       document.querySelector(".form-container").innerHTML = htmlContent;
@@ -52,15 +59,15 @@ function loadForm(FileName) {
 }
 
 function SubmitForm() {
-  if (formFileName === "form_1") {
+  if (newFormName === "form_1") {
     submitForm1();
-  } else if (formFileName === "form_2") {
+  } else if (newFormName === "form_2") {
     submitForm2();
   }
 }
 
 async function ExportPdf() {
-  if (formFileName === "form_1") {
+  if (newFormName === "form_1") {
     let options = {
       filename: "Form One.pdf",
       image: { type: "jpeg", quality: 1 },
@@ -70,7 +77,7 @@ async function ExportPdf() {
 
     let form1 = document.getElementById("form-1");
     html2pdf().set(options).from(form1).save();
-  } else if (formFileName === "form_2") {
+  } else if (newFormName === "form_2") {
     let options = {
       filename: "Form Two.pdf",
       image: { type: "jpeg", quality: 1 },
@@ -82,3 +89,33 @@ async function ExportPdf() {
     html2pdf().set(options).from(form2).save();
   }
 }
+
+// function EditForm() {
+//   const modalContainer = document.querySelector(".modal-container");
+//   const closeModalBtn = document.getElementById("cancel-modal-btn");
+
+//   modalContainer.classList.add("active");
+
+//   function closeModalClick(e) {
+//     if (!e.target.closest(".modal-content") || e.target === closeModalBtn) {
+//       closeModal();
+//     }
+//   }
+
+//   function closeModalEsc(e) {
+//     if (e.key === "Escape") {
+//       closeModal();
+//     }
+//   }
+
+//   function closeModal() {
+//     modalContainer.classList.remove("active");
+//     closeModalBtn.removeEventListener("click", closeModal);
+//     modalContainer.removeEventListener("click", closeModalClick);
+//     document.removeEventListener("keyup", closeModalEsc);
+//   }
+
+//   closeModalBtn.addEventListener("click", closeModal);
+//   modalContainer.addEventListener("click", closeModalClick);
+//   document.addEventListener("keyup", closeModalEsc);
+// }

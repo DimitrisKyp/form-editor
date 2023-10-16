@@ -66,6 +66,10 @@ body {
   display: flex;
   justify-content: space-evenly;
 }
+
+.registered-forms-table {
+  padding: 30px 15px ;
+}
 /*CREATE FORM*/
 .create-form-title {
   display: flex;
@@ -93,7 +97,7 @@ body {
 #footer {
   background-color: rgb(177, 180, 228);
   color: white;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   font-weight: bold;
   height: 3.5vh;
@@ -127,7 +131,7 @@ a:visited {
 }
 
 a:hover {
-  color: rgb(9, 9, 65) ;
+  color: rgb(9, 9, 65);
 }
 /*BUTTONS*/
 .button {
@@ -155,7 +159,7 @@ a:hover {
 .button:hover,
 .button:active {
   background-color: initial;
-  color: rgb(53, 53, 163);;
+  color: rgb(53, 53, 163);
 }
 
 .button:disabled {
@@ -164,7 +168,7 @@ a:hover {
 }
 
 .button:disabled:hover {
-  background: rgb(53, 53, 163);;
+  background: rgb(53, 53, 163);
   color: #ffffff;
 }
 

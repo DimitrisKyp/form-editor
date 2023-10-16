@@ -43,6 +43,30 @@ app.get("/form_2.html", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/html/form_2.html"));
 });
 
+app.post("/load-form-data", async (req, res) => {
+  const tableName = req.body.SelectedFormLoaded;
+  console.log(tableName);
+  if (tableName === "form_1") {
+    try {
+      const tableData = await form1Model(sequelize).findAll({
+      });
+      res.json(tableData);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  } else if (tableName === "form_2") {
+    try {
+      const tableData = await form2Model(sequelize).findAll({
+      });
+      res.json(tableData);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+});
+
 app.post("/submit-form-1", async (req, res) => {
   try {
     const data = req.body;
