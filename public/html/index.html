@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/form_1.css">
     <link rel="stylesheet" href="../css/form_2.css">
+    <link rel="stylesheet" href="../../libraries/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../libraries/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" href="../../libraries/DataTables-1.10.23/css/jquery.dataTables.min.css" type="text/css">
 
@@ -17,6 +18,7 @@
     <script src="../js/form_1.js"></script>
     <script src="../js/form_2.js"></script>
     <script src="../../libraries/jquery/jquery-3.5.1.js" type="text/javascript"></script>
+    <script src="../../libraries/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../libraries/DataTables-1.10.23/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="../../libraries/html2pdf/html2pdf.bundle.min.js"></script>
     <script src="../../libraries/flatpickr/flatpickr.js"></script>
@@ -54,16 +56,18 @@
             <h2>Καταχωρημένες Φόρμες</h2>
         </div>
         <div class="registered-forms-selection">
-            <button onclick="EditForm(`form_1`)" class="button">Φόρμα 1</button>
-            <button onclick="EditForm(`form_2`)" class="button">Φόρμα 2</button>
-            <button onclick="EditForm(`form_3`)" class="button">Φόρμα 3</button>
-            <button onclick="EditForm(`form_4`)" class="button">Φόρμα 4</button>
-            <button onclick="EditForm(`form_5`)" class="button">Φόρμα 5</button>
-            <button onclick="EditForm(`form_6`)" class="button">Φόρμα 6</button>
-            <button onclick="EditForm(`form_7`)" class="button">Φόρμα 7</button>
-            <button onclick="EditForm(`form_8`)" class="button">Φόρμα 8</button>
-            <button onclick="EditForm(`form_9`)" class="button">Φόρμα 9</button>
-            <button onclick="EditForm(`form_10`)" class="button">Φόρμα 10</button>
+            <select name="options" id="registered-forms">
+                <option value="form_1" selected="true">Φόρμα 1</option>
+                <option value="form_2">Φόρμα 2</option>
+                <option value="form_3" disabled>Φόρμα 3</option>
+                <option value="form_4" disabled>Φόρμα 4</option>
+                <option value="form_5" disabled>Φόρμα 5</option>
+                <option value="form_6" disabled>Φόρμα 6</option>
+                <option value="form_7" disabled>Φόρμα 7</option>
+                <option value="form_8" disabled>Φόρμα 8</option>
+                <option value="form_9" disabled>Φόρμα 9</option>
+                <option value="form_10" disabled>Φόρμα 10</option>
+            </select>
         </div>
         <div class="registered-forms-table">
             <table id="datatable" class="display">
@@ -79,16 +83,19 @@
             <h2>Δημιουργία Φόρμας</h2>
         </div>
         <div class="create-form-selection">
-            <button onclick="NewForm(`form_1`)" class="button">Φόρμα 1</button>
-            <button onclick="NewForm(`form_2`)" class="button">Φόρμα 2</button>
-            <button onclick="NewForm(`form_3`)" class="button">Φόρμα 3</button>
-            <button onclick="NewForm(`form_4`)" class="button">Φόρμα 4</button>
-            <button onclick="NewForm(`form_5`)" class="button">Φόρμα 5</button>
-            <button onclick="NewForm(`form_6`)" class="button">Φόρμα 6</button>
-            <button onclick="NewForm(`form_7`)" class="button">Φόρμα 7</button>
-            <button onclick="NewForm(`form_8`)" class="button">Φόρμα 8</button>
-            <button onclick="NewForm(`form_9`)" class="button">Φόρμα 9</button>
-            <button onclick="NewForm(`form_10`)" class="button">Φόρμα 10</button>
+            <select name="options" id="create-forms">
+                <option value="" selected="true" disabled>--Επιλέξτε μια φόρμα--</option>
+                <option value="form_1">Φόρμα 1</option>
+                <option value="form_2">Φόρμα 2</option>
+                <option value="form_3" disabled>Φόρμα 3</option>
+                <option value="form_4" disabled>Φόρμα 4</option>
+                <option value="form_5" disabled>Φόρμα 5</option>
+                <option value="form_6" disabled>Φόρμα 6</option>
+                <option value="form_7" disabled>Φόρμα 7</option>
+                <option value="form_8" disabled>Φόρμα 8</option>
+                <option value="form_9" disabled>Φόρμα 9</option>
+                <option value="form_10" disabled>Φόρμα 10</option>
+            </select>
         </div>
         <div class="create-form-submit">
             <button onclick="SubmitForm()" class="button" id="submit-btn" disabled>Υποβολή Φόρμας</button>
@@ -96,14 +103,26 @@
     </div>
     <div class="form-container"></div>
     <div id="footer"></div>
-    <!-- modal for form editing -->
-    <!-- <div class="modal-container">
-        <div class="modal-content">
-            <span id="cancel-modal-btn" class="close">&times;</span>
-            <h2>Modal Title</h2>
-            <p>This is the modal content.</p>
+
+    <!-- modals -->
+    <div class="modal fade" id="formModal" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Φόρμα</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-form-container"></div>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <input type="submit" id="selectBench" name="submit" class="btn btn-info1 btn-md" value="Επιλογή Πάγκου">
+                        <input type="submit" name="cancel" class="btn btn-info1 btn-md" data-dismiss="modal" value="Ακύρωση">
+                    </div>
+                </div>
+            </div>
         </div>
-    </div> -->
+    </div>
 </body>
 
 </html>

@@ -1,20 +1,33 @@
+let editFormName = "form_1";
 let newFormName = "";
-let editFormName = "";
 let dataTable = null;
 
 window.onload = function () {
   footer();
+  EditForm(editFormName);
+  document
+    .getElementById("registered-forms")
+    .addEventListener("change", function () {
+      editFormName = this.value;
+      EditForm(editFormName);
+    });
+
+  document
+    .getElementById("create-forms")
+    .addEventListener("change", function () {
+      newFormName = this.value;
+      NewForm(newFormName);
+    });
 };
 
 function EditForm(formName) {
-  SelectedFormLoaded = formName;
-
+  
   fetch(`load-form-data`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ SelectedFormLoaded }),
+    body: JSON.stringify({ formName }),
   })
     .then((res) => {
       if (!res.ok) throw new Error(`HTTP error. Status: ${res.status}`);
@@ -22,6 +35,7 @@ function EditForm(formName) {
     })
     .then((data) => {
       let columns = [];
+      let rowdata = "";
 
       for (let key in data[0]) {
         columns.push({ data: key, title: key });
@@ -36,10 +50,42 @@ function EditForm(formName) {
         data: data,
         columns: columns,
         scrollX: true,
-        lengthMenu: [10, 15, 20, 50, 100]
+        lengthMenu: [10, 15, 20, 50, 100],
       });
+
+      $("#datatable tbody").on("dblclick", "tr", async function () {
+        rowdata = await dataTable.row(this).data();
+        $("#formModal").modal("show");
+      });
+      console.log(rowdata);
+      
+      $("#formModal").on("show.bs.modal", function () {
+        fetchHtml(formName, ".modal-form-container");
+        fetchFormData(formName, rowdata);
+      });
+
     })
     .catch((err) => console.error(`Error submitting form: ${err}`));
+}
+
+function fetchHtml(formName, location) {
+  console.log("formName", formName);
+  console.log("location", location);
+  fetch(`${formName}.html`)
+  .then((response) => response.text())
+  .then((htmlContent) => {
+    document.querySelector(location).innerHTML = htmlContent;
+    flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" });
+  })
+  .catch((error) => console.error(error));
+}
+
+function fetchFormData(formName, rowdata) {
+  if (formName === "form_1") {
+    fetchForm1(rowdata);
+  } else if (formName === "form_2") {
+    fetchForm2(rowdata);
+  }
 }
 
 function NewForm(formName) {
@@ -47,15 +93,7 @@ function NewForm(formName) {
   exportBtn.removeAttribute("disabled");
   let submitBtn = document.getElementById("submit-btn");
   submitBtn.removeAttribute("disabled");
-  newFormName = formName;
-
-  fetch(`${formName}.html`)
-    .then((response) => response.text())
-    .then((htmlContent) => {
-      document.querySelector(".form-container").innerHTML = htmlContent;
-      flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" });
-    })
-    .catch((error) => console.error(error));
+  fetchHtml(formName, ".form-container");
 }
 
 function SubmitForm() {

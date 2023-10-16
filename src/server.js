@@ -44,7 +44,7 @@ app.get("/form_2.html", (req, res) => {
 });
 
 app.post("/load-form-data", async (req, res) => {
-  const tableName = req.body.SelectedFormLoaded;
+  const tableName = req.body.formName;
   console.log(tableName);
   if (tableName === "form_1") {
     try {
