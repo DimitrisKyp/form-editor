@@ -1,37 +1,33 @@
-let editFormName = "form_1";
 let newFormName = "";
+let editFormName = "form_1";
 let dataTable = null;
+let flatpickrInstance = null;
+let rowdata = "";
 
 window.onload = function () {
   footer();
   EditForm(editFormName);
-  document
-    .getElementById("registered-forms")
-    .addEventListener("change", function () {
+  document.getElementById("registered-forms").addEventListener("change", function () {
       editFormName = this.value;
       EditForm(editFormName);
     });
 
-  document
-    .getElementById("create-forms")
-    .addEventListener("change", function () {
+  document.getElementById("create-forms").addEventListener("change", function () {
       newFormName = this.value;
-      NewForm(newFormName);
-    });
-  EditForm(editFormName);
-  document
-    .getElementById("registered-forms")
-    .addEventListener("change", function () {
-      editFormName = this.value;
-      EditForm(editFormName);
+      fetchClearHtml(); 
     });
 
-  document
-    .getElementById("create-forms")
-    .addEventListener("change", function () {
-      newFormName = this.value;
-      NewForm(newFormName);
-    });
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest("#formModal .modal-content")) {
+      $("#formModal").modal("hide");
+    }
+  });
+
+  document.addEventListener("keyup", function (e) {
+    if (e.key === "Escape" || e.key === "Esc") {
+      $("#formModal").modal("hide");
+    }
+  });
 };
 
 //edit forms
@@ -49,7 +45,6 @@ function EditForm(formName) {
     })
     .then((data) => {
       let columns = [];
-      let rowdata = "";
 
       for (let key in data[0]) {
         columns.push({ data: key, title: key });
@@ -75,45 +70,52 @@ function EditForm(formName) {
       $("#formModal").on("show.bs.modal", function () {
         document.getElementById("create-forms").selectedIndex = 0;
         document.querySelector(".form-container").innerHTML = "";
-        fetchHtml(formName, rowdata);
+        fetchHtml();
       });
 
     })
     .catch((err) => console.error(`Error submitting form: ${err}`));
 }
 
-function fetchHtml(formName, rowdata) {
-  fetch(`${formName}.html`)
+function fetchHtml() {
+  fetch(`${editFormName}.html`)
     .then((response) => response.text())
     .then((htmlContent) => {
       document.querySelector(".modal-form-container").innerHTML = htmlContent;
       flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" });
-      fetchFormData(formName, rowdata);
+      fetchFormData();
     })
     .catch((error) => console.error(error));
 }
 
-function fetchFormData(formName, rowdata) {
-  if (formName === "form_1") {
+function fetchFormData() {
+  if (editFormName === "form_1") {
     fetchForm1(rowdata);
-  } else if (formName === "form_2") {
+  } else if (editFormName === "form_2") {
     fetchForm2(rowdata);
   }
 }
-//create new forms
-function NewForm(formName) {
-  let exportBtn = document.getElementById("export-btn");
-  exportBtn.removeAttribute("disabled");
-  let submitBtn = document.getElementById("submit-btn");
-  submitBtn.removeAttribute("disabled");
-  fetchClearHtml(formName);
+
+function updateForm() {
+  if (editFormName === "form_1") {
+    submitForm1(rowdata.Id);
+  } else if (editFormName === "form_2") {
+    submitForm2(rowdata.Id);
+  }
+  $("#formModal").modal("hide");
+
 }
 
-function fetchClearHtml(formName) {
-  if (formName === "") {
+//create new forms
+function fetchClearHtml() {
+  let exportBtn = document.getElementById("export-btn");
+  let submitBtn = document.getElementById("submit-btn");
+  exportBtn.removeAttribute("disabled");
+  submitBtn.removeAttribute("disabled");
+  if (newFormName === "") {
     document.querySelector(".form-container").innerHTML = "";
   } else {
-    fetch(`${formName}.html`)
+    fetch(`${newFormName}.html`)
       .then((response) => response.text())
       .then((htmlContent) => {
         document.querySelector(".form-container").innerHTML = htmlContent;
@@ -123,15 +125,15 @@ function fetchClearHtml(formName) {
   }
 }
 
-function SubmitForm() {
+function submitForm() {
   if (newFormName === "form_1") {
-    submitForm1();
+    submitForm1("");
   } else if (newFormName === "form_2") {
-    submitForm2();
+    submitForm2("");
   }
 }
 
-async function ExportPdf() {
+async function exportPdf() {
   if (newFormName === "form_1") {
     let options = {
       filename: "Form One.pdf",
@@ -154,33 +156,3 @@ async function ExportPdf() {
     html2pdf().set(options).from(form2).save();
   }
 }
-
-// function EditForm() {
-//   const modalContainer = document.querySelector(".modal-container");
-//   const closeModalBtn = document.getElementById("cancel-modal-btn");
-
-//   modalContainer.classList.add("active");
-
-//   function closeModalClick(e) {
-//     if (!e.target.closest(".modal-content") || e.target === closeModalBtn) {
-//       closeModal();
-//     }
-//   }
-
-//   function closeModalEsc(e) {
-//     if (e.key === "Escape") {
-//       closeModal();
-//     }
-//   }
-
-//   function closeModal() {
-//     modalContainer.classList.remove("active");
-//     closeModalBtn.removeEventListener("click", closeModal);
-//     modalContainer.removeEventListener("click", closeModalClick);
-//     document.removeEventListener("keyup", closeModalEsc);
-//   }
-
-//   closeModalBtn.addEventListener("click", closeModal);
-//   modalContainer.addEventListener("click", closeModalClick);
-//   document.addEventListener("keyup", closeModalEsc);
-// }

@@ -1,6 +1,7 @@
-function submitForm1() {
+function submitForm1(formId) {
 
   const body = {
+    ID: formId,
     order_num: document.getElementById("order_num").value,
     production_method: document.getElementById("production_method").value,
     receipt_order_date: document.getElementById("receipt_order_date").value,

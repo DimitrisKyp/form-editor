@@ -1,7 +1,8 @@
 
-function submitForm2() {
+function submitForm2(formId) {
     console.log("submit Form 2");
     const body = {
+        ID: formId,
         type_2: document.getElementById("type_2").value,
         mold_number_2: document.getElementById("mold_number_2").value,
         date_2: document.getElementById("date_2").value,

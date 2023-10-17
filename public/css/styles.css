@@ -125,6 +125,11 @@ body {
 #create-forms:focus {
   outline: none;
 }
+/*MODAL*/
+.modal-pdf-export {
+  display: flex;
+  justify-content: flex-end;
+}
 /*FOOTER*/
 #footer {
   background-color: rgb(177, 180, 228);
