@@ -75,32 +75,11 @@ function EditForm(formName) {
       $("#formModal").on("show.bs.modal", function () {
         document.getElementById("create-forms").selectedIndex = 0;
         document.querySelector(".form-container").innerHTML = "";
-
         fetchHtml(formName, rowdata);
       });
 
     })
     .catch((err) => console.error(`Error submitting form: ${err}`));
-}
-
-function fetchHtml(formName, location) {
-  console.log("formName", formName);
-  console.log("location", location);
-  fetch(`${formName}.html`)
-  .then((response) => response.text())
-  .then((htmlContent) => {
-    document.querySelector(location).innerHTML = htmlContent;
-    flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" });
-  })
-  .catch((error) => console.error(error));
-}
-
-function fetchFormData(formName, rowdata) {
-  if (formName === "form_1") {
-    fetchForm1(rowdata);
-  } else if (formName === "form_2") {
-    fetchForm2(rowdata);
-  }
 }
 
 function fetchHtml(formName, rowdata) {

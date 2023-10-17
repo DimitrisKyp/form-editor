@@ -48,9 +48,6 @@
             </div>
         </div>
     </div>
-    <div class="pdf-generator">
-        <button onclick="ExportPdf()" class="button" id="export-btn" disabled>Εξαγωγή Pdf</button>
-    </div>
     <div class="registered-forms-container">
         <div class="registered-forms-title">
             <h2>Καταχωρημένες Φόρμες</h2>
@@ -97,8 +94,11 @@
                 <option value="form_10" disabled>Φόρμα 10</option>
             </select>
         </div>
-        <div class="create-form-submit">
-            <button onclick="SubmitForm()" class="button" id="submit-btn" disabled>Υποβολή Φόρμας</button>
+        <div class="create-form-submit-container">
+            <div class="create-form-submit">
+                <button onclick="SubmitForm()" class="button" id="submit-btn" disabled>Υποβολή Φόρμας</button>
+                <button onclick="ExportPdf()" class="button" id="export-btn" disabled>Εξαγωγή Pdf</button>
+            </div>
         </div>
     </div>
     <div class="form-container"></div>

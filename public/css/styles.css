@@ -45,14 +45,6 @@ body {
   flex-direction: column;
   align-items: center;
 }
-/*PDF BTN*/
-.pdf-generator {
-  display: flex;
-  justify-content: flex-end;
-  height: 70px;
-  align-items: center;
-  padding: 0 10px;
-}
 
 /*REGISTERED FORMS*/
 .registered-forms-title {
@@ -92,16 +84,22 @@ body {
   justify-content: center;
 }
 
-.create-form-submit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70px;
-}
-
 .create-form-selection {
   display: flex;
   justify-content: space-evenly;
+}
+
+.create-form-submit-container {
+  display: flex;
+  justify-content: center;
+  height: 70px;
+  align-items: center;
+}
+
+.create-form-submit {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
 }
 
 .form-container {
