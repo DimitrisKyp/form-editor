@@ -18,6 +18,20 @@ window.onload = function () {
       newFormName = this.value;
       NewForm(newFormName);
     });
+  EditForm(editFormName);
+  document
+    .getElementById("registered-forms")
+    .addEventListener("change", function () {
+      editFormName = this.value;
+      EditForm(editFormName);
+    });
+
+  document
+    .getElementById("create-forms")
+    .addEventListener("change", function () {
+      newFormName = this.value;
+      NewForm(newFormName);
+    });
 };
 
 //edit forms
@@ -64,8 +78,29 @@ function EditForm(formName) {
 
         fetchHtml(formName, rowdata);
       });
+
     })
     .catch((err) => console.error(`Error submitting form: ${err}`));
+}
+
+function fetchHtml(formName, location) {
+  console.log("formName", formName);
+  console.log("location", location);
+  fetch(`${formName}.html`)
+  .then((response) => response.text())
+  .then((htmlContent) => {
+    document.querySelector(location).innerHTML = htmlContent;
+    flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" });
+  })
+  .catch((error) => console.error(error));
+}
+
+function fetchFormData(formName, rowdata) {
+  if (formName === "form_1") {
+    fetchForm1(rowdata);
+  } else if (formName === "form_2") {
+    fetchForm2(rowdata);
+  }
 }
 
 function fetchHtml(formName, rowdata) {
