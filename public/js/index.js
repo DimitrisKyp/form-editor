@@ -144,26 +144,30 @@ function submitForm() {
   }
 }
 
+function generatePdf(formName, filename) {
+  let options = {
+    filename: filename,
+    image: { type: "jpeg", quality: 1 },
+    html2canvas: { scale: 4 },
+    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+  };
+
+  let form = document.getElementById(formName);
+  html2pdf().set(options).from(form).save();
+}
+
 function exportPdf() {
-  if (newFormName === "form_1" || editFormName === "form_1") {
-    let options = {
-      filename: "Form One.pdf",
-      image: { type: "jpeg", quality: 1 },
-      html2canvas: { scale: 4 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    };
+  if (newFormName === "form_1") {
+    generatePdf("form-1", "Form One.pdf");
+  } else if (newFormName === "form_2") {
+    generatePdf("form-2", "Form Two.pdf");
+  }
+}
 
-    let form1 = document.getElementById("form-1");
-    html2pdf().set(options).from(form1).save();
-  } else if (newFormName === "form_2" || editFormName === "form_2") {
-    let options = {
-      filename: "Form Two.pdf",
-      image: { type: "jpeg", quality: 1 },
-      html2canvas: { scale: 4 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    };
-
-    let form2 = document.getElementById("form-2");
-    html2pdf().set(options).from(form2).save();
+function exportPdfModal() {
+  if (editFormName === "form_1") {
+    generatePdf("form-1", "Form One.pdf");
+  } else if (editFormName === "form_2") {
+    generatePdf("form-2", "Form Two.pdf");
   }
 }
