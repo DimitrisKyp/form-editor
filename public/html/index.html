@@ -75,12 +75,12 @@
             </table>
         </div>
     </div>
-    <div class="create-form-container">
-        <div class="create-form-title">
+    <div>
+        <div class="new-form-title">
             <h2>Δημιουργία Φόρμας</h2>
         </div>
-        <div class="create-form-selection">
-            <select name="options" id="create-forms">
+        <div class="new-form-selection">
+            <select name="options" id="new-forms">
                 <option value="" selected="true">--Επιλέξτε μια φόρμα--</option>
                 <option value="form_1">Φόρμα 1</option>
                 <option value="form_2">Φόρμα 2</option>
@@ -94,28 +94,41 @@
                 <option value="form_10" disabled>Φόρμα 10</option>
             </select>
         </div>
-        <div class="create-form-submit-container">
-            <div class="create-form-submit">
-                <button onclick="submitForm()" class="button" id="submit-btn" disabled>Υποβολή Φόρμας</button>
-                <button onclick="exportPdf()" class="button" id="export-btn" disabled>Εξαγωγή Pdf</button>
-            </div>
-        </div>
     </div>
-    <div class="form-container"></div>
     <div id="footer"></div>
 
-    <!-- modals -->
-    <div class="modal fade" id="formModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <!-- new form modal -->
+    <div class="modal fade" id="newFormModal" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Φόρμα</h3>
+                    <div class="modal-pdf-export">
+                        <h3 class="modal-title">Δημιουργία Φόρμας</h3>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="NewFormPdf()">Εξαγωγή Pdf</button>
+                    </div>
                 </div>
                 <div class="modal-body">
+                    <div class="new-form-container"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitForm()">Υποβολή Φόρμας</button>
+                    <button type="button" data-dismiss="modal">Ακύρωση</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- edit form modal -->
+    <div class="modal fade" id="editFormModal" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
                     <div class="modal-pdf-export">
-                        <button type="button" class="btn btn-primary btn-sm" onclick="exportPdfModal()">Εξαγωγή Pdf</button>
+                        <h3 class="modal-title">Φόρμα</h3>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="EditFormPdf()">Εξαγωγή Pdf</button>
                     </div>
-                    <div class="modal-form-container"></div>
+                </div>
+                <div class="modal-body">
+                    <div class="edit-form-container"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" onclick="updateForm()">Ενημέρωση φόρμας</button>

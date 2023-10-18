@@ -10,10 +10,14 @@ window.onload = function () {
 };
 
 function setupEventListeners() {
-  document.getElementById("registered-forms").addEventListener("change", handleFormChange);
-  document.getElementById("create-forms").addEventListener("change", handleNewFormChange);
+  document
+    .getElementById("registered-forms")
+    .addEventListener("change", handleFormChange);
+  document
+    .getElementById("new-forms")
+    .addEventListener("change", handleNewFormChange);
 
-  document.addEventListener("click", closeModalOnOutsideClick);
+  // document.addEventListener("click", closeModalOnOutsideClick);
   document.addEventListener("keyup", closeModalOnEscape);
 }
 
@@ -27,15 +31,16 @@ function handleNewFormChange() {
   fetchClearHtml();
 }
 
-function closeModalOnOutsideClick(e) {
-  if (!e.target.closest("#formModal .modal-content")) {
-    $("#formModal").modal("hide");
-  }
-}
+// function closeModalOnOutsideClick(e) {
+//     if (!e.target.closest("#editFormModal .modal-content")) {
+//       $("#editFormModal").modal("hide");
+//     } 
+// }
 
 function closeModalOnEscape(e) {
   if (e.key === "Escape" || e.key === "Esc") {
-    $("#formModal").modal("hide");
+    $("#editFormModal").modal("hide");
+    $("#newFormModal").modal("hide");
   }
 }
 //edit forms
@@ -78,12 +83,7 @@ function renderDataTable(data) {
 
   $("#datatable tbody").on("dblclick", "tr", async function () {
     rowdata = await dataTable.row(this).data();
-    $("#formModal").modal("show");
-  });
-
-  $("#formModal").on("show.bs.modal", function () {
-    document.getElementById("create-forms").selectedIndex = 0;
-    document.querySelector(".form-container").innerHTML = "";
+    $("#editFormModal").modal("show");
     fetchHtml();
   });
 }
@@ -92,7 +92,7 @@ function fetchHtml() {
   fetch(`${editFormName}.html`)
     .then((response) => response.text())
     .then((htmlContent) => {
-      document.querySelector(".modal-form-container").innerHTML = htmlContent;
+      document.querySelector(".edit-form-container").innerHTML = htmlContent;
       flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" });
       fetchFormData();
     })
@@ -113,26 +113,28 @@ function updateForm() {
   } else if (editFormName === "form_2") {
     submitForm2(rowdata.Id);
   }
-  $("#formModal").modal("hide");
+  $("#editFormModal").modal("hide");
 }
 
 //create new forms
 function fetchClearHtml() {
-  const exportBtn = document.getElementById("export-btn");
-  const submitBtn = document.getElementById("submit-btn");
-  exportBtn.removeAttribute("disabled");
-  submitBtn.removeAttribute("disabled");
+  $("#newFormModal").modal("show");
 
   if (newFormName === "") {
-    document.querySelector(".form-container").innerHTML = "";
+    return;
   } else {
     fetch(`${newFormName}.html`)
       .then((response) => response.text())
       .then((htmlContent) => {
-        document.querySelector(".form-container").innerHTML = htmlContent;
+        document.querySelector(".new-form-container").innerHTML = htmlContent;
         flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" });
       })
       .catch((error) => console.error(error));
+
+    $("#newFormModal").on("hidden.bs.modal", function () {
+      document.getElementById("new-forms").selectedIndex = 0;
+      document.querySelector(".new-form-container").innerHTML = "";
+    });
   }
 }
 
@@ -142,6 +144,7 @@ function submitForm() {
   } else if (newFormName === "form_2") {
     submitForm2("");
   }
+  $("#newFormModal").modal("hide");
 }
 
 function generatePdf(formName, filename) {
@@ -156,7 +159,7 @@ function generatePdf(formName, filename) {
   html2pdf().set(options).from(form).save();
 }
 
-function exportPdf() {
+function NewFormPdf() {
   if (newFormName === "form_1") {
     generatePdf("form-1", "Form One.pdf");
   } else if (newFormName === "form_2") {
@@ -164,7 +167,7 @@ function exportPdf() {
   }
 }
 
-function exportPdfModal() {
+function EditFormPdf() {
   if (editFormName === "form_1") {
     generatePdf("form-1", "Form One.pdf");
   } else if (editFormName === "form_2") {

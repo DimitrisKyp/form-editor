@@ -78,13 +78,13 @@ body {
 .registered-forms-table {
   padding: 30px 15px;
 }
-/*CREATE FORM*/
-.create-form-title {
+/*NEW FORM*/
+.new-form-title {
   display: flex;
   justify-content: center;
 }
 
-.create-form-selection {
+.new-form-selection {
   display: flex;
   justify-content: space-evenly;
 }
@@ -102,13 +102,7 @@ body {
   width: 400px;
 }
 
-.form-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 50px;
-}
-
-#create-forms {
+#new-forms {
   display: block;
   height: 40px;
   padding: 6px 12px;
@@ -117,18 +111,18 @@ body {
   border-radius: 4px;
 }
 
-#create-forms:hover {
+#new-forms:hover {
   box-shadow: 0 0 11px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
 
-#create-forms:focus {
+#new-forms:focus {
   outline: none;
 }
 /*MODAL*/
 .modal-pdf-export {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 /*FOOTER*/
 #footer {
@@ -210,7 +204,8 @@ a:hover {
 }
 
 /*MODAL*/
-#formModal .modal-dialog {
+#newFormModal .modal-dialog,
+#editFormModal .modal-dialog {
   width: 800px;
   max-width: 800px;
 }
