@@ -78,6 +78,10 @@ body {
 .registered-forms-table {
   padding: 30px 15px;
 }
+
+#datatable {
+  width: auto !important;
+}
 /*NEW FORM*/
 .new-form-title {
   display: flex;

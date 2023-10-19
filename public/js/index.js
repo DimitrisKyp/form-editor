@@ -62,11 +62,43 @@ function EditForm(formName) {
     .catch((err) => console.error(`Error submitting form: ${err}`));
 }
 
+function getColumns(formName) {
+  if (formName === "form_1") {
+    const customTitles = [
+      "ID",
+      "ΑΡΙΘ. ΠΑΡΑΓΓΕΛΙΑΣ",
+      "ΤΡΟΠΟΣ ΠΑΡΑΓΩΓΗΣ(ΤΠ)",
+      "ΗΜΕΡ/ΝΙΑ ΠΑΡΑΛΑΒΗΣ",
+      "ΗΜΕΡ/ΝΙΑ ΕΚΤΕΛΕΣΗΣ ΠΑΡΑΓΓΕΛΙΑΣ",
+      "ΑΡΙΘΜΟΣ ΕΚΔΟΣΗΣ ΛΟΓΙΣΜΙΚΟΥ (SW version)",
+      "ΠΕΛΑΤΗΣ",
+      "ΠΟΣΟΤΗΤΕΣ",
+      "ΠΕΡΙΓΡΑΦΗ ΠΡΟΪΟΝΤΟΣ",
+      "ΚΩΔΙΚΟΣ ΠΡΟΪΟΝΤΟΣ",
+      "ΑΡΙΘ. ΠΛΑΚΕΤΑΣ",
+    ];
+    return customTitles;
+  } else if (formName === "form_2") {
+    const customTitles = [
+      "ID",
+      "ΕΙΔΟΣ",
+      "ΚΩΔΙΚΟΣ ΚΑΛΟΥΠΙΟΥ",
+      "ΗΜΕΡΟΜΗΝΙΑ",
+      "ΜΗΧΑΝΗ",
+      "ΠΑΡΤΙΔΑ - BATCH",
+      "ΛΟΓΙΣΤΙΚΟΣ ΚΩΔΙΚΟΣ ΠΡΟΪΟΝΤΟΣ",
+    ];
+    return customTitles;
+  }
+}
+
 function renderDataTable(data) {
   let columns = [];
+  const customTitles = getColumns(editFormName);
 
-  for (let key in data[0]) {
-    columns.push({ data: key, title: key });
+  for (let i = 0; i < customTitles.length; i++) {
+    const key = Object.keys(data[0])[i];
+    columns.push({ data: key, title: customTitles[i] });
   }
 
   if (dataTable) {
@@ -77,7 +109,8 @@ function renderDataTable(data) {
   dataTable = $("#datatable").DataTable({
     data: data,
     columns: columns,
-    scrollX: true,
+    responsive: true,
+    // scrollX: true,
     lengthMenu: [5, 10, 20, 50, 100],
   });
 

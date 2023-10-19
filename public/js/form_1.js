@@ -53,6 +53,9 @@ function submitForm1(formId) {
     .then((res) => {
       if (!res.ok) throw new Error(`HTTP error. Status: ${res.status}`);
     })
+    .then(() => {
+      EditForm("form_1");
+    })
     .catch((err) => console.error(`Error submiting form: ${err}`));
 }
 
