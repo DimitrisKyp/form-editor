@@ -2,6 +2,7 @@ let newFormName = "";
 let editFormName = "form_1";
 let dataTable = null;
 let rowdata = "";
+let flatpickrInstances = [];
 
 window.onload = function () {
   footer();
@@ -126,10 +127,17 @@ function fetchHtml() {
     .then((response) => response.text())
     .then((htmlContent) => {
       document.querySelector(".edit-form-container").innerHTML = htmlContent;
-      flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" });
+      flatpickrInstances.push(flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" }));
       fetchFormData();
     })
     .catch((error) => console.error(error));
+
+    $("#editFormModal").on("hidden.bs.modal", function () {
+      console.log(flatpickrInstances);
+      flatpickrInstances.forEach(instance => {
+        instance.destroy();
+      });
+    });
 }
 
 function fetchFormData() {
@@ -160,11 +168,15 @@ function fetchClearHtml() {
       .then((response) => response.text())
       .then((htmlContent) => {
         document.querySelector(".new-form-container").innerHTML = htmlContent;
-        flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" });
+        flatpickrInstances.push(flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" }));
       })
       .catch((error) => console.error(error));
 
     $("#newFormModal").on("hidden.bs.modal", function () {
+      console.log(flatpickrInstances);
+      flatpickrInstances.forEach(instance => {
+        instance.destroy();
+      });
       document.getElementById("new-forms").selectedIndex = 0;
       document.querySelector(".new-form-container").innerHTML = "";
     });
