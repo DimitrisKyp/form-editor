@@ -8,6 +8,20 @@ window.onload = function () {
   footer();
   EditForm(editFormName);
   setupEventListeners();
+
+  $("#editFormModal").on("hidden.bs.modal", function () {
+    flatpickrInstances.forEach(instance => {
+      instance.destroy();
+    });
+  });
+
+  $("#newFormModal").on("hidden.bs.modal", function () {
+    flatpickrInstances.forEach(instance => {
+      instance.destroy();
+    });
+    document.getElementById("new-forms").selectedIndex = 0;
+    document.querySelector(".new-form-container").innerHTML = "";
+  });
 };
 
 function setupEventListeners() {
@@ -123,21 +137,18 @@ function renderDataTable(data) {
 }
 
 function fetchHtml() {
+  flatpickrInstances = [];
   fetch(`${editFormName}.html`)
     .then((response) => response.text())
     .then((htmlContent) => {
       document.querySelector(".edit-form-container").innerHTML = htmlContent;
-      flatpickrInstances.push(flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" }));
+      const inputs = document.querySelectorAll("input[type=datetime-local]");
+      inputs.forEach(input => {
+        flatpickrInstances.push(flatpickr(input, { dateFormat: "d/m/Y" }));
+      })
       fetchFormData();
     })
     .catch((error) => console.error(error));
-
-    $("#editFormModal").on("hidden.bs.modal", function () {
-      console.log(flatpickrInstances);
-      flatpickrInstances.forEach(instance => {
-        instance.destroy();
-      });
-    });
 }
 
 function fetchFormData() {
@@ -159,6 +170,7 @@ function updateForm() {
 
 //create new forms
 function fetchClearHtml() {
+  flatpickrInstances = [];
   $("#newFormModal").modal("show");
 
   if (newFormName === "") {
@@ -168,18 +180,12 @@ function fetchClearHtml() {
       .then((response) => response.text())
       .then((htmlContent) => {
         document.querySelector(".new-form-container").innerHTML = htmlContent;
-        flatpickrInstances.push(flatpickr("input[type=datetime-local]", { dateFormat: "d/m/Y" }));
+        const inputs = document.querySelectorAll("input[type=datetime-local]");
+        inputs.forEach(input => {
+          flatpickrInstances.push(flatpickr(input, { dateFormat: "d/m/Y" }));
+        });
       })
       .catch((error) => console.error(error));
-
-    $("#newFormModal").on("hidden.bs.modal", function () {
-      console.log(flatpickrInstances);
-      flatpickrInstances.forEach(instance => {
-        instance.destroy();
-      });
-      document.getElementById("new-forms").selectedIndex = 0;
-      document.querySelector(".new-form-container").innerHTML = "";
-    });
   }
 }
 
